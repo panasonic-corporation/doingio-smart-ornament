@@ -26,3 +26,5 @@ APIを変えることで、明日のゴミの日がわかったり、TeamsやSla
 | ライブラリ名| 配布元 | コピーライトまたは貢献者 | ライセンス |
 |:---|:----|:----|:----|
 | FastLED | [URL](https://github.com/FastLED/FastLED) | Copyright (c) 2013 FastLED | [LICENSE](https://github.com/FastLED/FastLED/blob/master/LICENSE) |
+
+**天気予報は気象庁のWeb公開情報を取得しています**

@@ -32,7 +32,7 @@ int HttpRequestController::getRequest(JsonObject *response_json, const char *url
                 http_client.end();
                 return -1;
             } else {
-                *response_json = json_buffer.as<JsonObject>();
+                *response_json = json_buffer[0].as<JsonObject>();
                 http_client.end();
                 return 1;
             }
