@@ -1,4 +1,3 @@
-#include <M5Atom.h>
 #include "HttpRequestController.h"
 #include "KishochoApiController.h"
 

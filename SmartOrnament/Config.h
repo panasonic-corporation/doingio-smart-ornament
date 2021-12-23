@@ -1,5 +1,4 @@
-#define USE_ADDITIONAL_LEDS
-#define NUM_LEDS 6 // LEDの数
+#define NUM_LEDS 3 // LEDの数
 #define MAX_BRIGHTNESS 70 // 0 - 100% 
 #define DATA_PIN 26
 #define CLOCK_PIN 32
