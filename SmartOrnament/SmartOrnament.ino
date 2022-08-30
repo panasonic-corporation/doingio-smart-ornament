@@ -1,16 +1,13 @@
-#include <M5Atom.h>
+#include <FastLED.h>
 #include <WiFi.h>
 #include <Ticker.h>
 #include "KishochoApiController.h"
 #include "Config.h"
 
-#ifdef USE_ADDITIONAL_LEDS
-#include <FastLED.h>
-#endif
-
 Ticker ticker;
 bool request_flag = true;
 CRGB leds[NUM_LEDS];
+CRGB ex_leds[EX_NUM_LEDS];
 uint32_t led_color;
 
 void wifiConfig() {
@@ -127,11 +124,11 @@ uint32_t getColorFromWeatherId(int weather_id) {
     }
 }
 
-void flashMatrix(uint32_t color) {
-    for (int i = 0; i < 25; i++) {
-        M5.dis.drawpix(i, color);
-    }
-}
+//void flashMatrix(uint32_t color) {
+//    for (int i = 0; i < 25; i++) {
+//        M5.dis.drawpix(i, color);
+//    }
+//}
 
 void flashLed(void* param) {
     uint8_t brightness = 0;
@@ -140,18 +137,15 @@ void flashLed(void* param) {
         for (int i = 0; i < NUM_LEDS; i++) {
             leds[i] = led_color;
         }
+        for (int i = 0; i < EX_NUM_LEDS; i++) {
+            ex_leds[i] = led_color;
+        }
 
         brightness = 0.5 * (1 + sin(rad)) * 255 * MAX_BRIGHTNESS * 0.01; // 0 - 255
-        //Serial.printf("%d\n", brightness);
 
         // setBrigheness
-        M5.dis.setBrightness(0);
-        M5.dis.setBrightness(brightness * 100 / 255); // 0 - 100
-        flashMatrix(getGRB(led_color)); // ATOM LED -> GRB
-        #ifdef USE_ADDITIONAL_LEDS
         FastLED.setBrightness(brightness); // 0 - 255
         FastLED.show();
-        #endif
         rad += 0.03;
 
         delay(10);
@@ -180,14 +174,12 @@ void timeToRequest() {
 }
 
 void setup() {
-    M5.begin(true, false, true);
+    Serial.begin(115200);
 
     // FastLED
-    #ifdef USE_ADDITIONAL_LEDS
-    FastLED.addLeds<P9813, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);
-    //FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
-    //FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);  // GRB ordering is typical
-    #endif
+    FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
+    FastLED.addLeds<P9813, EX_DATA_PIN, EX_CLOCK_PIN, RGB>(ex_leds, EX_NUM_LEDS);
+
 
     wifiConfig();
 
